@@ -31,7 +31,7 @@ OUTPUT: JSON report with:
 ### Step 1: Extract All Frames
 
 ```
-Video: 14,000 frames (2 minutes at 30 FPS)
+Video: 14,000 frames for 254 Videos (2 minutes at 30 FPS)
    ↓
 System extracts every single frame as an image
    ↓
@@ -499,4 +499,5 @@ If you encounter issues:
 This project demonstrates how **Artificial Intelligence** can automate surveillance analysis, making traffic management more efficient and responsive. By using advanced deep learning models and anomaly detection techniques, we can identify unusual events automatically, saving time and improving public safety.
 
 **Key Takeaway:** Instead of humans watching videos 24/7, AI does the watching and alerts humans only when something unusual happens.
+
 # AIML-Project
