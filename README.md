@@ -1,5 +1,167 @@
 # 🚨 Smart Traffic Anomaly Detection System
 
+# Traffic Anomaly Detection using Vision Transformer
+
+## Project Overview
+
+This project implements an intelligent **video-based traffic anomaly detection system** that identifies unusual patterns, congestion levels, and potential accidents in traffic footage using deep learning. The system leverages Vision Transformers (ViT) for feature extraction and Isolation Forest for unsupervised anomaly detection.
+
+## Problem Statement
+
+Traffic monitoring is critical for urban safety and congestion management. Manual analysis of video footage is time-consuming and inefficient. This project automates the detection of anomalous events (accidents, congestion) by analyzing visual patterns in traffic videos without requiring labeled training data.
+
+## Architecture & Approach
+
+### 1. **Frame Extraction & Quantization**
+
+* Extracts **all frames** from input video files (.avi, .mp4, .MOV)
+* Resizes frames to 224×224 for model compatibility
+* Applies **smart quantization** (takes every N-th frame) to reduce computational load while preserving temporal information
+* Example: 3000 raw frames → \~1000 quantized frames for analysis
+
+### 2. **Feature Extraction using Vision Transformer**
+
+* Uses pre-trained **vit\_base\_patch16\_224** model from timm library
+* Extracts high-dimensional feature vectors (768-dim) from each frame
+* Vision Transformers capture global context better than CNNs, making them ideal for detecting subtle anomalies
+* Processes features in batches for efficiency
+
+### 3. **Feature Normalization**
+
+* Applies **StandardScaler** to normalize feature vectors
+* Ensures all features have zero mean and unit variance
+* Essential for anomaly detection algorithms to work effectively
+
+### 4. **Anomaly Detection using Isolation Forest**
+
+* Trains **Isolation Forest** on normalized features (contamination=5%)
+* Unsupervised approach—no labeled data required
+* Generates **anomaly scores**: lower scores indicate more anomalous frames
+* Classifies frames as normal or anomalous based on isolation paths in random decision trees
+
+### 5. **Congestion Level Classification**
+
+* Maps anomaly scores to three congestion levels:
+  * **HIGH**: Bottom 33% of scores (most anomalous patterns)
+  * **MEDIUM**: Middle 33% of scores
+  * **LOW**: Top 34% of scores (most normal patterns)
+* Provides actionable intelligence for traffic management
+
+### 6. **Accident Detection**
+
+* Identifies frames in the **bottom 1st percentile** of anomaly scores
+* Flags these as potential accidents for human review
+* Timestamps provided for quick reference
+
+## Key Features
+
+✅ **Fully Automated Pipeline** - No manual labeling or preprocessing required
+
+✅ **Temporal Awareness** - Calculates precise timestamps for each detected anomaly
+
+✅ **Comprehensive Reporting** - Outputs detailed JSON with scores, timestamps, and classifications
+
+✅ **Visual Analytics** - Generates charts comparing raw vs. quantized frames and anomaly distributions
+
+✅ **Efficient Processing** - Smart quantization reduces computation while maintaining analytical quality
+
+✅ **Production-Ready** - Includes error handling, progress tracking, and verification steps
+
+## Output
+
+The system generates a comprehensive **JSON report** containing:
+
+```json
+{
+  "metadata": {
+    "model_name": "vit_base_patch16_224",
+    "anomaly_detector": "IsolationForest"
+  },
+  "summary": {
+    "total_frames_analyzed": 1000,
+    "anomalies_detected": 50,
+    "potential_accidents": 10,
+    "congestion_level_counts": {...}
+  },
+  "frames_data": [
+    {
+      "frame_id": "frame_001",
+      "timestamp": "00:05.30",
+      "anomaly_score": -0.2451,
+      "congestion_level": "HIGH",
+      "is_accident": true
+    }
+  ]
+}
+```
+
+## Technical Stack
+
+
+| Component             | Technology                     |
+| --------------------- | ------------------------------ |
+| **Video Processing**  | OpenCV                         |
+| **Deep Learning**     | PyTorch, torchvision           |
+| **Vision Model**      | Timm (vit\_base\_patch16\_224) |
+| **Anomaly Detection** | Scikit-learn (IsolationForest) |
+| **Data Processing**   | NumPy, Pandas                  |
+| **Visualization**     | Matplotlib, Seaborn            |
+| **Environment**       | Google Colab (GPU accelerated) |
+
+## Workflow
+
+```
+Input Videos → Frame Extraction → Quantization → ViT Feature Extraction
+    ↓
+Feature Normalization → Isolation Forest Training → Anomaly Scoring
+    ↓
+Congestion Classification → Accident Detection → JSON Report Generation
+    ↓
+Visualizations & Download
+```
+
+## Performance Metrics
+
+* **Contamination Rate**: 5% (expected anomalies)
+* **Isolation Forest Estimators**: 100 trees
+* **Feature Dimension**: 768 (from ViT)
+* **Processing**: GPU-accelerated (CUDA if available)
+
+## How to Use
+
+1. Upload video files to `/content/` directory
+2. Run the notebook cells sequentially
+3. System automatically:
+   * Extracts and processes frames
+   * Detects anomalies
+   * Generates timestamps and congestion levels
+   * Creates comprehensive JSON report
+4. Download the `traffic_anomaly_detection_report.json`
+
+## Advantages Over Traditional Methods
+
+* **No manual annotation needed** (unsupervised learning)
+* **Captures complex visual patterns** that rule-based systems miss
+* **Scalable** to large video datasets
+* **Real-time insights** with precise timestamps
+* **Adaptable** to different traffic scenarios without retraining
+
+## Future Enhancements
+
+* Real-time video stream processing
+* Multi-model ensemble for improved accuracy
+* Integration with traffic management systems
+* Fine-tuning ViT on domain-specific traffic data
+* Spatial anomaly localization (bounding boxes)
+
+## Conclusion
+
+This project demonstrates how combining Vision Transformers with unsupervised anomaly detection creates a powerful tool for intelligent traffic monitoring. The system identifies congestion and accident patterns automatically, enabling faster emergency response and better urban traffic management.
+
+---
+
+**Status**: ✅ Production Ready | **Last Updated**: December 2025
+
 ## 📖 What is This Project?
 
 This project uses **Artificial Intelligence** to watch traffic videos and automatically detect **unusual events** like accidents, congestion, and traffic anomalies. Instead of manually watching hours of video footage, this system analyzes every frame and creates a detailed report showing exactly **when** and **where** problems occurred.
