@@ -154,7 +154,7 @@ Transformers + Edge Computing + Digital Twins + LLMs form a robust foundation fo
 
 ---
 
-## References (IEEE Format)
+## References 
 
 [1] W. Shi et al., "Edge computing: Vision and challenges," *IEEE IoT J.*, 2016  
 [2] A. Dosovitskiy et al., "ViT: An image is worth 16x16 words," *ICLR*, 2021  
