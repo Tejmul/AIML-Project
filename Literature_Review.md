@@ -44,7 +44,7 @@ y = MV2(x) + Transformer(MV2(x))
 |---|---|---|
 | ViT-Base | ~86M | High compute |
 | DeiT-Tiny | ~22M | Efficient training |
-| **MobileViT** | **~6M** | Best for Edge Deployment ⚡ |
+| **MobileViT** | **~6M** | Best for Edge Deployment  |
 
 MobileViT provides **2–3× faster inference** with only minimal accuracy drop, ideal for **<100ms real-time detection on edge devices**.
 
